@@ -1,3 +1,8 @@
+# This script scrapes the website 3ghackerz for hotstar premium ids and check for working ids by logging in 
+# and then open all the working ids in new tab.
+# CURRENTLY THE SCRIPT IS ONLY SUPPORTED IN FIREFOX
+# YOU NEED TO HAVE ALL THE IMPORTED MODULES FOR THE SCRIPT TO BE WORKING
+# pip install pandas, pip install selenium, pip install requests, pip install bs4
 import pandas as pd
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
